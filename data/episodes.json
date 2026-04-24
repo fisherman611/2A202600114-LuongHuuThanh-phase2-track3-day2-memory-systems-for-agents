@@ -1,0 +1,8 @@
+[
+  {
+    "timestamp": "2026-04-24T04:43:57.463466+00:00",
+    "task": "debug-connection",
+    "user_input": "Nhờ tôi checklist lỗi kết nối.",
+    "outcome": "Đã xong: đã xác định nguyên nhân là dùng sai service name trong Docker."
+  }
+]
