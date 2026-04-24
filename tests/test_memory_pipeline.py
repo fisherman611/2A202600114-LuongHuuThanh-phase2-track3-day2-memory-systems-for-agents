@@ -87,3 +87,23 @@ def test_trim_budget_is_applied(tmp_path):
 
     assert state["memory_budget"] == 70
     assert count_words(prompt) < 190
+
+
+def test_conflict_update_occupation_and_timezone(tmp_path):
+    stack = build_default_stack(tmp_path)
+    save_memory_updates(stack, "Tôi làm nghề backend engineer.")
+    save_memory_updates(stack, "Tôi ở UTC+7.")
+    save_memory_updates(stack, "À cập nhật lại, tôi chuyển sang platform engineer.")
+
+    profile = stack.profile.load_profile()
+    assert profile["occupation"] == "platform engineer"
+    assert profile["timezone"] == "UTC+7"
+
+
+def test_question_does_not_overwrite_allergy_fact(tmp_path):
+    stack = build_default_stack(tmp_path)
+    save_memory_updates(stack, "Tôi dị ứng đậu nành.")
+    save_memory_updates(stack, "Tôi dị ứng gì?")
+
+    profile = stack.profile.load_profile()
+    assert profile["allergy"] == "đậu nành"

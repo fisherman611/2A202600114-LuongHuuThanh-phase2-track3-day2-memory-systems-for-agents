@@ -98,6 +98,7 @@ def extract_profile_updates(user_text: str) -> dict[str, str]:
         (r"(?:tên tôi là|tôi tên là)\s+([^\.,\n]+)", "name"),
         (r"tôi sống ở\s+([^\.,\n]+)", "location"),
         (r"tôi làm nghề\s+([^\.,\n]+)", "occupation"),
+        (r"tôi chuyển sang\s+([^\.,\n]+)", "occupation"),
     ]
 
     for pattern, key in fact_patterns:
@@ -111,7 +112,18 @@ def extract_profile_updates(user_text: str) -> dict[str, str]:
         flags=re.IGNORECASE | re.UNICODE,
     )
     if allergy_match:
-        updates["allergy"] = _normalize_fact_value(allergy_match.group(1))
+        allergy_value = _normalize_fact_value(allergy_match.group(1))
+        if allergy_value.lower() not in {"gì", "gi", "what"}:
+            updates["allergy"] = allergy_value
+
+    timezone_match = re.search(
+        r"(?:tôi ở|timezone(?: của tôi)? là|múi giờ(?: của tôi)? là)\s*(utc\s*[+-]\s*\d{1,2})",
+        text,
+        flags=re.IGNORECASE | re.UNICODE,
+    )
+    if timezone_match:
+        timezone_value = _normalize_fact_value(timezone_match.group(1)).upper().replace(" ", "")
+        updates["timezone"] = timezone_value
 
     return updates
 
