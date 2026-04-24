@@ -10,5 +10,41 @@
     "metadata": {
       "topic": "debug"
     }
+  },
+  {
+    "text": "Trong Docker Compose, service name được dùng làm hostname nội bộ.",
+    "metadata": {
+      "topic": "docker"
+    }
+  },
+  {
+    "text": "Khi timeout DB, ưu tiên kiểm tra network policy và DNS.",
+    "metadata": {
+      "topic": "debug"
+    }
+  },
+  {
+    "text": "Trong Docker Compose, service name được dùng làm hostname nội bộ.",
+    "metadata": {
+      "topic": "docker"
+    }
+  },
+  {
+    "text": "Khi timeout DB, ưu tiên kiểm tra network policy và DNS.",
+    "metadata": {
+      "topic": "debug"
+    }
+  },
+  {
+    "text": "Trong Docker Compose, service name được dùng làm hostname nội bộ.",
+    "metadata": {
+      "topic": "docker"
+    }
+  },
+  {
+    "text": "Khi timeout DB, ưu tiên kiểm tra network policy và DNS.",
+    "metadata": {
+      "topic": "debug"
+    }
   }
 ]

@@ -2,7 +2,12 @@ from __future__ import annotations
 
 import sys
 
-from .pipeline import MemoryGraphSkeleton, build_default_stack, save_memory_updates
+from .pipeline import (
+    MemoryGraphSkeleton,
+    build_default_stack,
+    create_nvidia_client_from_env,
+    save_memory_updates,
+)
 
 
 def main() -> None:
@@ -10,7 +15,13 @@ def main() -> None:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     stack = build_default_stack("data")
-    graph = MemoryGraphSkeleton(stack)
+    try:
+        llm = create_nvidia_client_from_env()
+    except Exception as exc:
+        llm = None
+        print(f"[WARN] NVIDIA NIM is not configured: {exc}")
+
+    graph = MemoryGraphSkeleton(stack, llm=llm)
 
     stack.semantic.add_documents(
         [
@@ -30,11 +41,17 @@ def main() -> None:
         task_name="debug-connection",
     )
 
-    state, prompt = graph.invoke("Nhắc lại dị ứng của tôi và cách debug hôm trước.", memory_budget=180)
+    state, prompt, answer = graph.answer(
+        "Nhắc lại dị ứng của tôi và cách debug hôm trước.",
+        memory_budget=180,
+        stream=True,
+    )
     print("=== MEMORY STATE ===")
     print(state)
     print("\n=== PROMPT ===")
     print(prompt)
+    print("\n=== ASSISTANT RESPONSE ===")
+    print(answer)
 
 
 if __name__ == "__main__":

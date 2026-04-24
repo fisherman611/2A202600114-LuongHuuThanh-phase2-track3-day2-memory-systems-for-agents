@@ -17,6 +17,7 @@ This repository implements the rubric requirements for:
   - semantic: FAISS (with numpy fallback if FAISS is unavailable)
 - `memory_systems/state.py`: `MemoryState` typed state
 - `memory_systems/pipeline.py`: router, retrieval, prompt injection, update logic
+- `memory_systems/demo.py`: end-to-end demo (memory + NVIDIA-NIM LLM response)
 - `tests/test_memory_pipeline.py`: required behavior tests
 - `BENCHMARK.md`: 10 multi-turn benchmark scenarios
 - `REFLECTION.md`: privacy and technical limitations
@@ -30,7 +31,26 @@ pip install -r requirements.txt
 python -m pytest -q
 ```
 
+## Configure NVIDIA-NIM
+
+Create `.env` from `.env.example`:
+
+```bash
+NVIDIA_API_KEY=your_key_here
+NVIDIA_MODEL=meta/llama-3.1-8b-instruct
+NVIDIA_TEMPERATURE=0.2
+NVIDIA_TOP_P=0.7
+NVIDIA_MAX_TOKENS=1024
+```
+
+Then run:
+
+```bash
+python -m memory_systems.demo
+```
+
 ## Notes
 
 - Semantic memory uses FAISS when installed (`faiss-cpu` in `requirements.txt`).
 - If FAISS import fails, code still runs with a deterministic cosine-search fallback so local development is not blocked.
+- If `NVIDIA_API_KEY` is missing, demo falls back to "prompt-only" mode (no LLM generation).

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from dotenv import load_dotenv
 
 from .backends import JsonEpisodicStore, JsonProfileStore, SemanticFaissStore, SlidingWindowMemory
 from .state import MemoryState
@@ -40,6 +43,37 @@ class MemoryStack:
     profile: JsonProfileStore
     episodic: JsonEpisodicStore
     semantic: SemanticFaissStore
+
+
+def create_nvidia_client_from_env() -> Any:
+    load_dotenv()
+
+    api_key = os.getenv("NVIDIA_API_KEY", "").strip()
+    if not api_key:
+        raise ValueError("Missing NVIDIA_API_KEY in environment.")
+
+    model = os.getenv("NVIDIA_MODEL", "meta/llama-3.1-8b-instruct").strip()
+    temperature = float(os.getenv("NVIDIA_TEMPERATURE", "0.2"))
+    top_p = float(os.getenv("NVIDIA_TOP_P", "0.7"))
+    max_tokens = int(os.getenv("NVIDIA_MAX_TOKENS", "1024"))
+    base_url = os.getenv("NVIDIA_BASE_URL", "").strip().rstrip("/")
+
+    # Imported lazily so local tests can run even when NVIDIA package is absent.
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA  # type: ignore
+
+    config: dict[str, Any] = {
+        "model": model,
+        "api_key": api_key,
+        "temperature": temperature,
+        "top_p": top_p,
+        "max_tokens": max_tokens,
+    }
+    if base_url:
+        config["base_url"] = base_url
+
+    return ChatNVIDIA(
+        **config,
+    )
 
 
 def build_default_stack(data_dir: str | Path = "data") -> MemoryStack:
@@ -207,8 +241,9 @@ def build_prompt(state: MemoryState, current_user_message: str) -> str:
 
 
 class MemoryGraphSkeleton:
-    def __init__(self, stack: MemoryStack):
+    def __init__(self, stack: MemoryStack, llm: Any | None = None):
         self.stack = stack
+        self.llm = llm
 
     def invoke(self, user_message: str, memory_budget: int = 220) -> tuple[MemoryState, str]:
         self.stack.short_term.add_message("user", user_message)
@@ -222,3 +257,39 @@ class MemoryGraphSkeleton:
         state = memory_router(state, self.stack)
         prompt = build_prompt(state, user_message)
         return state, prompt
+
+    def answer(
+        self,
+        user_message: str,
+        memory_budget: int = 220,
+        stream: bool = False,
+    ) -> tuple[MemoryState, str, str]:
+        state, prompt = self.invoke(user_message=user_message, memory_budget=memory_budget)
+
+        if self.llm is None:
+            response = "LLM is not configured. Prompt was prepared successfully."
+        else:
+            try:
+                messages = [{"role": "user", "content": prompt}]
+                if stream:
+                    chunks: list[str] = []
+                    for chunk in self.llm.stream(messages):
+                        content = getattr(chunk, "content", "")
+                        if content:
+                            chunks.append(content)
+                    response = "".join(chunks).strip()
+                else:
+                    completion = self.llm.invoke(messages)
+                    response = str(getattr(completion, "content", "")).strip()
+                if not response:
+                    response = "I could not generate a response."
+            except Exception as exc:
+                response = (
+                    "[LLM ERROR] NVIDIA-NIM request failed. "
+                    "Check NVIDIA_BASE_URL (no trailing slash), model name, and API key. "
+                    f"Details: {exc}"
+                )
+
+        self.stack.short_term.add_message("assistant", response)
+        save_memory_updates(self.stack, user_text=user_message, assistant_text=response)
+        return state, prompt, response
