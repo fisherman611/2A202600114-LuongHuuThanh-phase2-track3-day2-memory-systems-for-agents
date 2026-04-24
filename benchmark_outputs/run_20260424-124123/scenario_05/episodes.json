@@ -1,0 +1,8 @@
+[
+  {
+    "timestamp": "2026-04-24T05:43:57.368472+00:00",
+    "task": "scenario-5",
+    "user_input": "Nhờ bạn tổng hợp nguyên nhân fail deploy.",
+    "outcome": "Hoàn tất: thiếu biến môi trường REDIS_URL trên staging."
+  }
+]

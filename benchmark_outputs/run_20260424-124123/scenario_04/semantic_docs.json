@@ -1,0 +1,8 @@
+[
+  {
+    "text": "Trong Docker Compose, service name được dùng làm hostname nội bộ.",
+    "metadata": {
+      "scenario": 4
+    }
+  }
+]

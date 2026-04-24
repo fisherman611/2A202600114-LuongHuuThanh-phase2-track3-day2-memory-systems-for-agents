@@ -9,3 +9,4 @@ class MemoryState(TypedDict):
     episodes: list[dict[str, Any]]
     semantic_hits: list[str]
     memory_budget: int
+    memory_types_used: list[str]

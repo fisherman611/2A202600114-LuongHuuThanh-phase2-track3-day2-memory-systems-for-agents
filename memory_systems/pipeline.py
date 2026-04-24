@@ -45,6 +45,67 @@ class MemoryStack:
     semantic: SemanticFaissStore
 
 
+def _latest_user_query(messages: list[dict[str, str]]) -> str:
+    for message in reversed(messages):
+        if message.get("role") == "user":
+            return message.get("content", "")
+    return ""
+
+
+def route_memory_types(query: str) -> list[str]:
+    lowered = query.lower()
+    selected: list[str] = ["short_term"]
+
+    profile_cues = [
+        "tên",
+        "name",
+        "profile",
+        "dị ứng",
+        "allergy",
+        "sống ở",
+        "ở đâu",
+        "timezone",
+        "múi giờ",
+        "nghề",
+        "occupation",
+        "gọi tôi",
+    ]
+    episodic_cues = [
+        "hôm qua",
+        "trước đó",
+        "bài học",
+        "task",
+        "kết quả",
+        "đã xong",
+        "hoàn tất",
+        "lần trước",
+        "nhắc lại",
+    ]
+    semantic_cues = [
+        "docker",
+        "compose",
+        "db",
+        "faq",
+        "retry",
+        "chunk",
+        "api",
+        "debug",
+        "hostname",
+        "service name",
+    ]
+
+    if any(cue in lowered for cue in profile_cues):
+        selected.append("profile")
+    if any(cue in lowered for cue in episodic_cues):
+        selected.append("episodic")
+    if any(cue in lowered for cue in semantic_cues):
+        selected.append("semantic")
+
+    # Keep deterministic order and remove duplicates.
+    ordered = ["short_term", "profile", "episodic", "semantic"]
+    return [memory_type for memory_type in ordered if memory_type in set(selected)]
+
+
 def create_nvidia_client_from_env() -> Any:
     load_dotenv()
 
@@ -170,22 +231,23 @@ def save_memory_updates(
 
 def retrieve_memory(state: MemoryState, stack: MemoryStack) -> MemoryState:
     messages = state.get("messages", [])
-    current_query = ""
-    if messages:
-        for message in reversed(messages):
-            if message.get("role") == "user":
-                current_query = message.get("content", "")
-                break
+    current_query = _latest_user_query(messages)
+    selected = set(state.get("memory_types_used", ["short_term", "profile", "episodic", "semantic"]))
 
-    state["user_profile"] = stack.profile.load_profile()
-    state["episodes"] = stack.episodic.recent(limit=4)
-    semantic_hits = stack.semantic.search(current_query, top_k=4) if current_query else []
-    state["semantic_hits"] = [hit["text"] for hit in semantic_hits]
+    state["user_profile"] = stack.profile.load_profile() if "profile" in selected else {}
+    state["episodes"] = stack.episodic.recent(limit=4) if "episodic" in selected else []
+    if "semantic" in selected and current_query:
+        semantic_hits = stack.semantic.search(current_query, top_k=4)
+        state["semantic_hits"] = [hit["text"] for hit in semantic_hits]
+    else:
+        state["semantic_hits"] = []
     return state
 
 
 def memory_router(state: MemoryState, stack: MemoryStack) -> MemoryState:
     state["messages"] = stack.short_term.get_recent()
+    query = _latest_user_query(state["messages"])
+    state["memory_types_used"] = route_memory_types(query)
     return retrieve_memory(state, stack)
 
 
@@ -220,36 +282,29 @@ def _format_recent_messages(messages: list[dict[str, str]]) -> list[str]:
 
 def build_prompt(state: MemoryState, current_user_message: str) -> str:
     budget = max(40, state.get("memory_budget", 220))
-    profile_budget = int(budget * 0.20)
-    episodic_budget = int(budget * 0.25)
-    semantic_budget = int(budget * 0.25)
-    recent_budget = max(10, budget - (profile_budget + episodic_budget + semantic_budget))
+    selected = state.get("memory_types_used", ["short_term", "profile", "episodic", "semantic"])
 
-    profile_lines = _trim_lines_to_budget(_format_profile(state.get("user_profile", {})), profile_budget)
-    episode_lines = _trim_lines_to_budget(_format_episodes(state.get("episodes", [])), episodic_budget)
-    semantic_lines = _trim_lines_to_budget(_format_semantic_hits(state.get("semantic_hits", [])), semantic_budget)
-    recent_lines = _trim_lines_to_budget(_format_recent_messages(state.get("messages", [])), recent_budget)
+    section_specs: list[tuple[str, list[str], int]] = []
+    if "profile" in selected:
+        section_specs.append(("[USER PROFILE]", _format_profile(state.get("user_profile", {})), 2))
+    if "episodic" in selected:
+        section_specs.append(("[EPISODIC MEMORY]", _format_episodes(state.get("episodes", [])), 2))
+    if "semantic" in selected:
+        section_specs.append(("[SEMANTIC MEMORY HITS]", _format_semantic_hits(state.get("semantic_hits", [])), 2))
+    if "short_term" in selected:
+        section_specs.append(("[RECENT CONVERSATION]", _format_recent_messages(state.get("messages", [])), 3))
 
-    return "\n".join(
-        [
-            "You are a helpful assistant. Use memory carefully.",
-            "",
-            "[USER PROFILE]",
-            *profile_lines,
-            "",
-            "[EPISODIC MEMORY]",
-            *episode_lines,
-            "",
-            "[SEMANTIC MEMORY HITS]",
-            *semantic_lines,
-            "",
-            "[RECENT CONVERSATION]",
-            *recent_lines,
-            "",
-            "[CURRENT USER MESSAGE]",
-            current_user_message,
-        ]
-    )
+    total_weight = max(1, sum(weight for _, _, weight in section_specs))
+    lines: list[str] = ["You are a helpful assistant. Use memory carefully.", ""]
+    for header, raw_lines, weight in section_specs:
+        section_budget = max(8, int(budget * weight / total_weight))
+        trimmed = _trim_lines_to_budget(raw_lines, section_budget)
+        lines.append(header)
+        lines.extend(trimmed if trimmed else ["- (none)"])
+        lines.append("")
+
+    lines.extend(["[CURRENT USER MESSAGE]", current_user_message])
+    return "\n".join(lines)
 
 
 class MemoryGraphSkeleton:
@@ -265,6 +320,7 @@ class MemoryGraphSkeleton:
             "episodes": [],
             "semantic_hits": [],
             "memory_budget": memory_budget,
+            "memory_types_used": [],
         }
         state = memory_router(state, self.stack)
         prompt = build_prompt(state, user_message)

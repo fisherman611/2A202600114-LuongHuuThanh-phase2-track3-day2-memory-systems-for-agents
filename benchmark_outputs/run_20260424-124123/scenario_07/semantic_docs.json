@@ -1,0 +1,8 @@
+[
+  {
+    "text": "Khi gọi API không ổn định, dùng exponential backoff và jitter để giảm đồng bộ retry.",
+    "metadata": {
+      "scenario": 7
+    }
+  }
+]

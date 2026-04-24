@@ -1,0 +1,8 @@
+[
+  {
+    "timestamp": "2026-04-24T05:42:19.553987+00:00",
+    "task": "scenario-4",
+    "user_input": "Hôm qua chúng ta debug lỗi DB timeout.",
+    "outcome": "Đã xong: root cause là dùng sai Docker service name."
+  }
+]

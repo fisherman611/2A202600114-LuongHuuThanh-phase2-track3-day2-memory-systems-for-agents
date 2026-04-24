@@ -1,0 +1,697 @@
+[
+  {
+    "idx": 1,
+    "title": "Profile recall: name after 6 turns",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Chào bạn."
+      },
+      {
+        "role": "user",
+        "content": "Tên tôi là Linh."
+      },
+      {
+        "role": "assistant",
+        "content": "Chào Linh, mình có thể giúp gì?"
+      },
+      {
+        "role": "user",
+        "content": "Cho tôi checklist debug API."
+      },
+      {
+        "role": "assistant",
+        "content": "Checklist: kiểm tra log, timeout, retry, dependency."
+      },
+      {
+        "role": "user",
+        "content": "Bây giờ nhắc lại tên tôi."
+      }
+    ],
+    "no_memory_reference": "Mình chưa biết tên bạn.",
+    "expected_keywords": [
+      "Linh"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nBây giờ nhắc lại tên tôi.",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[USER PROFILE]\n- name: Linh\n\n[EPISODIC MEMORY]\n- (none)\n\n[RECENT CONVERSATION]\n- user: Chào bạn.\n- user: Tên tôi là Linh.\n- assistant: Chào Linh, mình có thể giúp gì?\n- user: Cho tôi checklist debug API.\n- assistant: Checklist: kiểm tra log, timeout, retry, dependency.\n- user: Bây giờ nhắc lại tên tôi.\n\n[CURRENT USER MESSAGE]\nBây giờ nhắc lại tên tôi.",
+    "no_memory_output": "Tôi không thể nhắc lại tên của bạn vì bạn chưa cung cấp thông tin đó.",
+    "with_memory_output": "Tên của bạn là Linh.",
+    "no_memory_prompt_words": 29,
+    "with_memory_prompt_words": 63,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "profile",
+      "episodic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Chào bạn."
+        },
+        {
+          "role": "user",
+          "content": "Tên tôi là Linh."
+        },
+        {
+          "role": "assistant",
+          "content": "Chào Linh, mình có thể giúp gì?"
+        },
+        {
+          "role": "user",
+          "content": "Cho tôi checklist debug API."
+        },
+        {
+          "role": "assistant",
+          "content": "Checklist: kiểm tra log, timeout, retry, dependency."
+        },
+        {
+          "role": "user",
+          "content": "Bây giờ nhắc lại tên tôi."
+        }
+      ],
+      "profile": {
+        "name": "Linh"
+      },
+      "episodic": []
+    }
+  },
+  {
+    "idx": 2,
+    "title": "Conflict update: allergy correction",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Tôi dị ứng sữa bò."
+      },
+      {
+        "role": "assistant",
+        "content": "Mình đã ghi nhớ."
+      },
+      {
+        "role": "user",
+        "content": "À nhầm, tôi dị ứng đậu nành chứ không phải sữa bò."
+      },
+      {
+        "role": "assistant",
+        "content": "Mình cập nhật lại rồi."
+      },
+      {
+        "role": "user",
+        "content": "Tôi dị ứng gì?"
+      }
+    ],
+    "no_memory_reference": "Bạn dị ứng sữa bò.",
+    "expected_keywords": [
+      "đậu nành"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nTôi dị ứng gì?",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[USER PROFILE]\n- allergy: đậu nành\n\n[RECENT CONVERSATION]\n- user: Tôi dị ứng sữa bò.\n- assistant: Mình đã ghi nhớ.\n- user: À nhầm, tôi dị ứng đậu nành chứ không phải sữa bò.\n- assistant: Mình cập nhật lại rồi.\n- user: Tôi dị ứng gì?\n\n[CURRENT USER MESSAGE]\nTôi dị ứng gì?",
+    "no_memory_output": "Tôi không thể xác định chính xác bạn dị ứng gì vì tôi không có thông tin về tình trạng sức khỏe của bạn. Tuy nhiên, một số nguyên nhân phổ biến gây dị ứng bao gồm phấn hoa, bụi, sữa, trứng, đậu phộng, hải sản, và một số loại thực phẩm khác. Nếu bạn đang gặp các triệu chứng dị ứng, tôi khuyên bạn nên tham khảo ý kiến của bác sĩ để được chẩn đoán và điều trị phù hợp.",
+    "with_memory_output": "Bạn dị ứng đậu nành.",
+    "no_memory_prompt_words": 27,
+    "with_memory_prompt_words": 57,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "profile"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Tôi dị ứng sữa bò."
+        },
+        {
+          "role": "assistant",
+          "content": "Mình đã ghi nhớ."
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, tôi dị ứng đậu nành chứ không phải sữa bò."
+        },
+        {
+          "role": "assistant",
+          "content": "Mình cập nhật lại rồi."
+        },
+        {
+          "role": "user",
+          "content": "Tôi dị ứng gì?"
+        }
+      ],
+      "profile": {
+        "allergy": "đậu nành"
+      }
+    }
+  },
+  {
+    "idx": 3,
+    "title": "Profile recall: location after topic switch",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Tôi sống ở Đà Nẵng."
+      },
+      {
+        "role": "user",
+        "content": "Cho tôi mẹo học system design."
+      },
+      {
+        "role": "assistant",
+        "content": "Tập trung trade-off và CAP theorem."
+      },
+      {
+        "role": "user",
+        "content": "Gợi ý quán cà phê để làm việc gần tôi."
+      }
+    ],
+    "no_memory_reference": "Bạn ở đâu vậy?",
+    "expected_keywords": [
+      "Đà Nẵng"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nGợi ý quán cà phê để làm việc gần tôi.",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[RECENT CONVERSATION]\n- user: Tôi sống ở Đà Nẵng.\n- user: Cho tôi mẹo học system design.\n- assistant: Tập trung trade-off và CAP theorem.\n- user: Gợi ý quán cà phê để làm việc gần tôi.\n\n[CURRENT USER MESSAGE]\nGợi ý quán cà phê để làm việc gần tôi.",
+    "no_memory_output": "Để tìm quán cà phê gần bạn để làm việc, bạn có thể thử các cách sau:\n\n1. Sử dụng ứng dụng bản đồ như Google Maps hoặc Apple Maps để tìm quán cà phê gần vị trí hiện tại của bạn.\n2. Tìm kiếm trên internet với từ khóa \"quán cà phê gần tôi\" hoặc \"quán cà phê làm việc gần tôi\".\n3. Hỏi bạn bè hoặc đồng nghiệp về quán cà phê mà họ thường đến để làm việc.\n\nHy vọng những gợi ý này sẽ giúp bạn tìm được quán cà phê phù hợp để làm việc!",
+    "with_memory_output": "Tôi nhớ bạn sống ở Đà Nẵng. Dưới đây là một số gợi ý quán cà phê để làm việc gần bạn:\n\n1. **Café Phố Cổ**: Một quán cà phê nằm ở trung tâm thành phố, có không gian yên tĩnh và thoải mái để làm việc.\n2. **The Coffee House**: Một chuỗi quán cà phê phổ biến ở Đà Nẵng, có nhiều chi nhánh gần trung tâm thành phố và cung cấp không gian làm việc thoải mái.\n3. **Café 43 Factory**: Một quán cà phê nằm ở khu vực trung tâm, có không gian rộng rãi và thoải mái để làm việc.\n4. **Highlands Coffee**: Một chuỗi quán cà phê phổ biến ở Đà Nẵng, có nhiều chi nhánh gần trung tâm thành phố và cung cấp không gian làm việc thoải mái.\n5. **Café Sông Hàn**: Một quán cà phê nằm ở khu vực trung tâm, có không gian yên tĩnh và thoải mái để làm việc.\n\nHy vọng những gợi ý này sẽ giúp bạn tìm được quán cà phê phù hợp để làm việc!",
+    "no_memory_prompt_words": 33,
+    "with_memory_prompt_words": 55,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Tôi sống ở Đà Nẵng."
+        },
+        {
+          "role": "user",
+          "content": "Cho tôi mẹo học system design."
+        },
+        {
+          "role": "assistant",
+          "content": "Tập trung trade-off và CAP theorem."
+        },
+        {
+          "role": "user",
+          "content": "Gợi ý quán cà phê để làm việc gần tôi."
+        }
+      ]
+    }
+  },
+  {
+    "idx": 4,
+    "title": "Episodic recall: previous debug outcome",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Hôm qua chúng ta debug lỗi DB timeout."
+      },
+      {
+        "role": "assistant",
+        "content": "Đã xong: root cause là dùng sai Docker service name."
+      },
+      {
+        "role": "user",
+        "content": "Nhắc lại bài học debug hôm qua."
+      }
+    ],
+    "no_memory_reference": "Không có dữ liệu phiên trước.",
+    "expected_keywords": [
+      "service name",
+      "hostname"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nNhắc lại bài học debug hôm qua.",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[EPISODIC MEMORY]\n- 1. task=scenario-4, outcome=Đã xong: root cause là dùng sai Docker service name.\n\n[SEMANTIC MEMORY HITS]\n- 1. Trong Docker Compose, service name được dùng làm hostname nội bộ.\n\n[RECENT CONVERSATION]\n- user: Hôm qua chúng ta debug lỗi DB timeout.\n- assistant: Đã xong: root cause là dùng sai Docker service name.\n- user: Nhắc lại bài học debug hôm qua.\n\n[CURRENT USER MESSAGE]\nNhắc lại bài học debug hôm qua.",
+    "no_memory_output": "Tôi không có thông tin về bài học debug hôm qua vì tôi không có khả năng lưu trữ thông tin trước đó. Tuy nhiên, tôi có thể giúp bạn tìm hiểu về các bước debug cơ bản nếu bạn muốn.",
+    "with_memory_output": "Bài học debug hôm qua là khi gặp lỗi DB timeout, cần kiểm tra xem đã sử dụng đúng Docker service name hay chưa. Trong Docker Compose, service name được dùng làm hostname nội bộ, vì vậy nếu sử dụng sai service name có thể dẫn đến lỗi kết nối đến database.",
+    "no_memory_prompt_words": 30,
+    "with_memory_prompt_words": 80,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "episodic",
+      "semantic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Hôm qua chúng ta debug lỗi DB timeout."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã xong: root cause là dùng sai Docker service name."
+        },
+        {
+          "role": "user",
+          "content": "Nhắc lại bài học debug hôm qua."
+        }
+      ],
+      "episodic": [
+        {
+          "timestamp": "2026-04-24T05:42:19.553987+00:00",
+          "task": "scenario-4",
+          "user_input": "Hôm qua chúng ta debug lỗi DB timeout.",
+          "outcome": "Đã xong: root cause là dùng sai Docker service name."
+        }
+      ],
+      "semantic": [
+        "Trong Docker Compose, service name được dùng làm hostname nội bộ."
+      ]
+    }
+  },
+  {
+    "idx": 5,
+    "title": "Episodic recall: done task status",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Nhờ bạn tổng hợp nguyên nhân fail deploy."
+      },
+      {
+        "role": "assistant",
+        "content": "Hoàn tất: thiếu biến môi trường REDIS_URL trên staging."
+      },
+      {
+        "role": "user",
+        "content": "Task deploy đã xong chưa và kết quả gì?"
+      }
+    ],
+    "no_memory_reference": "Chưa rõ trạng thái task.",
+    "expected_keywords": [
+      "hoàn tất",
+      "REDIS_URL"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nTask deploy đã xong chưa và kết quả gì?",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[EPISODIC MEMORY]\n- 1. task=scenario-5, outcome=Hoàn tất: thiếu biến môi trường REDIS_URL trên staging.\n\n[RECENT CONVERSATION]\n- user: Nhờ bạn tổng hợp nguyên nhân fail deploy.\n- assistant: Hoàn tất: thiếu biến môi trường REDIS_URL trên staging.\n- user: Task deploy đã xong chưa và kết quả gì?\n\n[CURRENT USER MESSAGE]\nTask deploy đã xong chưa và kết quả gì?",
+    "no_memory_output": "Tôi không có thông tin về task deploy của bạn. Bạn có thể cung cấp thêm thông tin về task deploy của mình để tôi có thể giúp bạn tốt hơn không?",
+    "with_memory_output": "Task deploy đã hoàn tất, nhưng kết quả là thất bại do thiếu biến môi trường REDIS_URL trên môi trường staging.",
+    "no_memory_prompt_words": 32,
+    "with_memory_prompt_words": 67,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "episodic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Nhờ bạn tổng hợp nguyên nhân fail deploy."
+        },
+        {
+          "role": "assistant",
+          "content": "Hoàn tất: thiếu biến môi trường REDIS_URL trên staging."
+        },
+        {
+          "role": "user",
+          "content": "Task deploy đã xong chưa và kết quả gì?"
+        }
+      ],
+      "episodic": [
+        {
+          "timestamp": "2026-04-24T05:43:57.368472+00:00",
+          "task": "scenario-5",
+          "user_input": "Nhờ bạn tổng hợp nguyên nhân fail deploy.",
+          "outcome": "Hoàn tất: thiếu biến môi trường REDIS_URL trên staging."
+        }
+      ]
+    }
+  },
+  {
+    "idx": 6,
+    "title": "Semantic retrieval: Docker FAQ chunk",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Trong Docker Compose, app nên gọi DB bằng gì?"
+      }
+    ],
+    "no_memory_reference": "Dùng localhost.",
+    "expected_keywords": [
+      "service name",
+      "hostname"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nTrong Docker Compose, app nên gọi DB bằng gì?",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[SEMANTIC MEMORY HITS]\n- 1. Trong Docker Compose, service name được dùng làm hostname nội bộ.\n\n[RECENT CONVERSATION]\n- user: Trong Docker Compose, app nên gọi DB bằng gì?\n\n[CURRENT USER MESSAGE]\nTrong Docker Compose, app nên gọi DB bằng gì?",
+    "no_memory_output": "Trong Docker Compose, ứng dụng (app) nên gọi cơ sở dữ liệu (DB) bằng tên dịch vụ (service name) được định nghĩa trong file docker-compose.yml, thay vì gọi bằng địa chỉ IP hoặc hostname cụ thể.",
+    "with_memory_output": "Trong Docker Compose, app nên gọi DB bằng tên dịch vụ (service name) của DB. Ví dụ, nếu trong file docker-compose.yml, bạn có một dịch vụ tên là \"db\", thì app của bạn nên gọi DB bằng hostname \"db\".",
+    "no_memory_prompt_words": 32,
+    "with_memory_prompt_words": 47,
+    "no_memory_contains_expected": true,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "semantic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Trong Docker Compose, app nên gọi DB bằng gì?"
+        }
+      ],
+      "semantic": [
+        "Trong Docker Compose, service name được dùng làm hostname nội bộ."
+      ]
+    }
+  },
+  {
+    "idx": 7,
+    "title": "Semantic retrieval: retry policy chunk",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Retry request thế nào để giảm retry storm?"
+      }
+    ],
+    "no_memory_reference": "Retry liên tục mỗi 1 giây.",
+    "expected_keywords": [
+      "exponential backoff",
+      "jitter"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nRetry request thế nào để giảm retry storm?",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[SEMANTIC MEMORY HITS]\n- 1. Khi gọi API không ổn định, dùng exponential backoff và jitter để giảm đồng bộ retry.\n\n[RECENT CONVERSATION]\n- user: Retry request thế nào để giảm retry storm?\n\n[CURRENT USER MESSAGE]\nRetry request thế nào để giảm retry storm?",
+    "no_memory_output": "Retry request để giảm retry storm có thể thực hiện bằng cách:\n\n1. Thêm thời gian chờ (backoff) giữa các lần retry.\n2. Sử dụng thuật toán backoff tăng dần (exponential backoff).\n3. Giới hạn số lần retry.\n4. Sử dụng cơ chế jitter (thêm một khoảng thời gian ngẫu nhiên vào thời gian chờ) để tránh đồng bộ hóa các yêu cầu retry.",
+    "with_memory_output": "Để giảm retry storm khi gọi API không ổn định, bạn có thể sử dụng kết hợp hai kỹ thuật: Exponential Backoff và Jitter.\n\nExponential Backoff là kỹ thuật tăng dần thời gian chờ giữa các lần retry. Ví dụ, nếu lần đầu tiên bạn retry sau 1 giây, lần thứ hai bạn sẽ retry sau 2 giây, lần thứ ba sau 4 giây, và cứ tiếp tục tăng gấp đôi thời gian chờ.\n\nJitter là kỹ thuật thêm một khoảng thời gian ngẫu nhiên vào thời gian chờ giữa các lần retry. Điều này giúp phân tán các lần retry và giảm khả năng xảy ra retry storm.\n\nVí dụ, nếu bạn sử dụng Exponential Backoff với thời gian chờ ban đầu là 1 giây và tăng gấp đôi sau mỗi lần retry, bạn có thể thêm Jitter bằng cách thêm một khoảng thời gian ngẫu nhiên từ 0 đến 1 giây vào thời gian chờ.\n\nVí dụ:\n\n* Lần đầu tiên: retry sau 1 giây + 0,5 giây (Jitter) = 1,5 giây\n* Lần thứ hai: retry sau 2 giây + 0,8 giây (Jitter) = 2,8 giây\n* Lần thứ ba: retry sau 4 giây + 1,2 giây (Jitter) = 5,2 giây\n\nBằng cách sử dụng kết hợp Exponential Backoff và Jitter, bạn có thể giảm khả năng xảy ra retry storm và giúp hệ thống ổn định hơn.",
+    "no_memory_prompt_words": 31,
+    "with_memory_prompt_words": 50,
+    "no_memory_contains_expected": true,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "semantic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Retry request thế nào để giảm retry storm?"
+        }
+      ],
+      "semantic": [
+        "Khi gọi API không ổn định, dùng exponential backoff và jitter để giảm đồng bộ retry."
+      ]
+    }
+  },
+  {
+    "idx": 8,
+    "title": "Mixed recall: profile + semantic together",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Tên tôi là Linh."
+      },
+      {
+        "role": "user",
+        "content": "Tôi làm nghề kỹ sư dữ liệu."
+      },
+      {
+        "role": "user",
+        "content": "Docker Compose gọi DB bằng gì? Và gọi tôi thế nào cho đúng?"
+      }
+    ],
+    "no_memory_reference": "Trả lời thiếu tên hoặc thiếu chunk kỹ thuật.",
+    "expected_keywords": [
+      "Linh",
+      "service name"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nDocker Compose gọi DB bằng gì? Và gọi tôi thế nào cho đúng?",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[USER PROFILE]\n- name: Linh\n- occupation: kỹ sư dữ liệu\n\n[SEMANTIC MEMORY HITS]\n- 1. Trong Docker Compose, service name được dùng làm hostname nội bộ.\n\n[RECENT CONVERSATION]\n- user: Tên tôi là Linh.\n- user: Tôi làm nghề kỹ sư dữ liệu.\n- user: Docker Compose gọi DB bằng gì? Và gọi tôi thế nào cho đúng?\n\n[CURRENT USER MESSAGE]\nDocker Compose gọi DB bằng gì? Và gọi tôi thế nào cho đúng?",
+    "no_memory_output": "Docker Compose gọi DB bằng \"dịch vụ\" (service). Bạn có thể gọi tôi là \"trợ lý\" hoặc \"assistant\".",
+    "with_memory_output": "Xin chào Linh, kỹ sư dữ liệu!\n\nTrong Docker Compose, dịch vụ cơ sở dữ liệu (DB) thường được gọi bằng tên của dịch vụ đó, và tên này cũng được sử dụng làm hostname nội bộ.\n\nVí dụ, nếu trong file docker-compose.yml của bạn có một dịch vụ tên là \"db\", thì Docker Compose sẽ gọi dịch vụ này bằng tên \"db\" và hostname nội bộ cũng sẽ là \"db\".\n\nVậy, để gọi bạn cho đúng, tôi sẽ gọi bạn là Linh, kỹ sư dữ liệu.",
+    "no_memory_prompt_words": 36,
+    "with_memory_prompt_words": 77,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": false,
+    "memory_types_used": [
+      "short_term",
+      "profile",
+      "semantic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Tên tôi là Linh."
+        },
+        {
+          "role": "user",
+          "content": "Tôi làm nghề kỹ sư dữ liệu."
+        },
+        {
+          "role": "user",
+          "content": "Docker Compose gọi DB bằng gì? Và gọi tôi thế nào cho đúng?"
+        }
+      ],
+      "profile": {
+        "name": "Linh",
+        "occupation": "kỹ sư dữ liệu"
+      },
+      "semantic": [
+        "Trong Docker Compose, service name được dùng làm hostname nội bộ."
+      ]
+    }
+  },
+  {
+    "idx": 9,
+    "title": "Trim/token budget in long chat",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 1: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 2: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 3: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 4: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 5: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 6: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 7: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 8: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 9: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 10: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 11: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 12: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 13: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 14: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 15: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 16: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 17: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 18: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 19: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 20: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 21: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Đây là turn dài số 22: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+      },
+      {
+        "role": "user",
+        "content": "Tóm tắt lại điều quan trọng nhất và nhắc profile."
+      }
+    ],
+    "no_memory_reference": "Prompt quá dài, lẫn nhiều nhiễu.",
+    "expected_keywords": [
+      "tóm tắt",
+      "profile"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nTóm tắt lại điều quan trọng nhất và nhắc profile.",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[USER PROFILE]\n- (empty)\n\n[RECENT CONVERSATION]\n- (none)\n\n[CURRENT USER MESSAGE]\nTóm tắt lại điều quan trọng nhất và nhắc profile.",
+    "no_memory_output": "Tôi không có thông tin cụ thể để tóm tắt lại điều quan trọng nhất. Profile của bạn không được cung cấp trong tin nhắn này. Nếu bạn cung cấp thêm thông tin, tôi sẽ sẵn sàng giúp đỡ.",
+    "with_memory_output": "Tôi không có thông tin nào để tóm tắt lại vì đây là cuộc trò chuyện đầu tiên của chúng ta. Profile của bạn hiện tại là trống.\n\nNếu bạn muốn, chúng ta có thể bắt đầu cuộc trò chuyện và tôi sẽ giúp bạn lưu trữ thông tin quan trọng trong profile của bạn.",
+    "no_memory_prompt_words": 33,
+    "with_memory_prompt_words": 27,
+    "no_memory_contains_expected": true,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "profile"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 12: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 13: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 14: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 15: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 16: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 17: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 18: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 19: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 20: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 21: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Đây là turn dài số 22: chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan chi tiết không liên quan "
+        },
+        {
+          "role": "user",
+          "content": "Tóm tắt lại điều quan trọng nhất và nhắc profile."
+        }
+      ],
+      "profile": {}
+    }
+  },
+  {
+    "idx": 10,
+    "title": "Multi-fact update: occupation + timezone",
+    "turns": [
+      {
+        "role": "user",
+        "content": "Tôi làm nghề backend engineer."
+      },
+      {
+        "role": "user",
+        "content": "Tôi ở UTC+7."
+      },
+      {
+        "role": "user",
+        "content": "À cập nhật lại, tôi chuyển sang platform engineer."
+      },
+      {
+        "role": "user",
+        "content": "Nhắc lại nghề hiện tại và timezone của tôi."
+      }
+    ],
+    "no_memory_reference": "Không nhớ hoặc nghề cũ.",
+    "expected_keywords": [
+      "platform engineer",
+      "UTC+7"
+    ],
+    "no_memory_prompt": "You are a helpful assistant.\nAnswer concisely based only on the current user message.\nDo not assume any stored memory.\n\n[CURRENT USER MESSAGE]\nNhắc lại nghề hiện tại và timezone của tôi.",
+    "with_memory_prompt": "You are a helpful assistant. Use memory carefully.\n\n[USER PROFILE]\n- occupation: platform engineer\n- timezone: UTC+7\n\n[EPISODIC MEMORY]\n- (none)\n\n[RECENT CONVERSATION]\n- user: Tôi làm nghề backend engineer.\n- user: Tôi ở UTC+7.\n- user: À cập nhật lại, tôi chuyển sang platform engineer.\n- user: Nhắc lại nghề hiện tại và timezone của tôi.\n\n[CURRENT USER MESSAGE]\nNhắc lại nghề hiện tại và timezone của tôi.",
+    "no_memory_output": "Tôi không có thông tin về nghề hiện tại và timezone của bạn. Bạn có thể cung cấp thông tin đó để tôi có thể hỗ trợ bạn tốt hơn không?",
+    "with_memory_output": "Nghề hiện tại của bạn là Platform Engineer và bạn đang ở múi giờ UTC+7.",
+    "no_memory_prompt_words": 32,
+    "with_memory_prompt_words": 64,
+    "no_memory_contains_expected": false,
+    "with_memory_contains_expected": true,
+    "memory_types_used": [
+      "short_term",
+      "profile",
+      "episodic"
+    ],
+    "memory_logs": {
+      "short_term": [
+        {
+          "role": "user",
+          "content": "Tôi làm nghề backend engineer."
+        },
+        {
+          "role": "user",
+          "content": "Tôi ở UTC+7."
+        },
+        {
+          "role": "user",
+          "content": "À cập nhật lại, tôi chuyển sang platform engineer."
+        },
+        {
+          "role": "user",
+          "content": "Nhắc lại nghề hiện tại và timezone của tôi."
+        }
+      ],
+      "profile": {
+        "occupation": "platform engineer",
+        "timezone": "UTC+7"
+      },
+      "episodic": []
+    }
+  }
+]

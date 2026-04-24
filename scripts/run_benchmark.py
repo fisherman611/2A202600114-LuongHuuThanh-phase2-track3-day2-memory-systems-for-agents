@@ -180,6 +180,7 @@ def _state_template(memory_budget: int) -> dict[str, Any]:
         "episodes": [],
         "semantic_hits": [],
         "memory_budget": memory_budget,
+        "memory_types_used": [],
     }
 
 
@@ -246,43 +247,18 @@ def _contains_keywords(text: str, keywords: list[str]) -> bool:
     return all(keyword.lower() in lowered for keyword in keywords)
 
 
-def _render_markdown(results: list[dict[str, Any]], output_path: Path) -> None:
-    lines: list[str] = []
-    lines.append("# Benchmark Run Output (LLM-backed)")
-    lines.append("")
-    lines.append(f"- Generated at: `{datetime.now().isoformat(timespec='seconds')}`")
-    lines.append(f"- Total scenarios: `{len(results)}`")
-    lines.append("")
-    lines.append(
-        "| # | Scenario | No-memory (LLM) | With-memory (LLM) | With-memory contains expected keywords? |"
-    )
-    lines.append("|---|---|---|---|---|")
-    for item in results:
-        lines.append(
-            f"| {item['idx']} | {item['title']} | {item['no_memory_output']} | {item['with_memory_output']} | {'Pass' if item['with_memory_contains_expected'] else 'Fail'} |"
-        )
-    lines.append("")
-
-    for item in results:
-        lines.append(f"## Scenario {item['idx']}: {item['title']}")
-        lines.append("")
-        lines.append("Turns:")
-        for turn in item["turns"]:
-            lines.append(f"- {turn['role']}: {turn['content']}")
-        lines.append("")
-        lines.append(f"- Reference no-memory (from BENCHMARK.md): `{item['no_memory_reference']}`")
-        lines.append(f"- No-memory LLM output: `{item['no_memory_output']}`")
-        lines.append(f"- With-memory LLM output: `{item['with_memory_output']}`")
-        lines.append(f"- Expected keywords: `{', '.join(item['expected_keywords'])}`")
-        lines.append(
-            f"- Contains expected keywords: `{'Pass' if item['with_memory_contains_expected'] else 'Fail'}`"
-        )
-        lines.append(
-            f"- Prompt words: no-memory=`{item['no_memory_prompt_words']}`, with-memory=`{item['with_memory_prompt_words']}`"
-        )
-        lines.append("")
-
-    output_path.write_text("\n".join(lines), encoding="utf-8")
+def _extract_memory_logs(state: dict[str, Any]) -> dict[str, Any]:
+    used = state.get("memory_types_used", [])
+    logs: dict[str, Any] = {}
+    if "short_term" in used:
+        logs["short_term"] = state.get("messages", [])
+    if "profile" in used:
+        logs["profile"] = state.get("user_profile", {})
+    if "episodic" in used:
+        logs["episodic"] = state.get("episodes", [])
+    if "semantic" in used:
+        logs["semantic"] = state.get("semantic_hits", [])
+    return logs
 
 
 def main() -> None:
@@ -325,7 +301,8 @@ def main() -> None:
                 "with_memory_prompt_words": count_words(with_memory_prompt),
                 "no_memory_contains_expected": no_memory_contains_expected,
                 "with_memory_contains_expected": with_memory_contains_expected,
-                "memory_state": state,
+                "memory_types_used": state.get("memory_types_used", []),
+                "memory_logs": _extract_memory_logs(state),
             }
         )
         print(
@@ -334,20 +311,14 @@ def main() -> None:
         )
 
     json_path = outputs_dir / f"benchmark_run_{timestamp}.json"
-    md_path = outputs_dir / f"benchmark_run_{timestamp}.md"
     latest_json = outputs_dir / "latest.json"
-    latest_md = outputs_dir / "latest.md"
 
     json_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
-    _render_markdown(results, md_path)
     latest_json.write_text(json_path.read_text(encoding="utf-8"), encoding="utf-8")
-    latest_md.write_text(md_path.read_text(encoding="utf-8"), encoding="utf-8")
 
     with_memory_pass = sum(1 for row in results if row["with_memory_contains_expected"])
     print(f"Benchmark done with LLM: {with_memory_pass}/{len(results)} with-memory cases contain expected keywords.")
-    print(f"Saved markdown: {md_path}")
     print(f"Saved json: {json_path}")
-    print(f"Latest markdown: {latest_md}")
     print(f"Latest json: {latest_json}")
 
 
